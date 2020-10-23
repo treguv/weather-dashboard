@@ -24,10 +24,16 @@ function getWeatherData(cityName){
     });
 }
 //get uv data
-function getUVData(cityName){
+function getUVData(lon,lat){
     //build api call
     var api_key = "7eb0513d724997973529d1ffcad23676";
-    var apiCall = "https://api.openweathermap.org/data/2.5/weather?q="+cityName+"&appid="+api_key;
+    var apiCall = "http://api.openweathermap.org/data/2.5/uvi?lat="+lat+"&lon="+lon+"&appid="+api_key;
+    fetch(apiCall).then(function(response){
+        response.json().then(function(data){
+            console.log("Returning Data");
+            displayUV(data);
+        })
+    });
 }
 //display data taken from the fetch
 function displayData(data){
@@ -39,10 +45,19 @@ function displayData(data){
     $("#humidity").text("Humidity: " + data.main.humidity + "%");
     //replace wind speed
     $("#wind-speed").text("Wind Speed: " + data.wind.speed + "mph");
-
+    //display the weather icon
+    var iconURL = "http://openweathermap.org/img/w/" + data.weather[0].icon + ".png";
+    $("#wicon").attr("src",iconURL );
+    //Grab the uv data using lon and lat
+    console.log(data.coord.lon, data.coord.lat)
+    //actual uv data is displauyed in a seperate method as it is async
+    getUVData(data.coord.lon, data.coord.lat);
 }
 function displayUV(data){
-
+    $("#uv-index").text("UV Index: " + data.value); // The data valuse needs to be moved into the span
+    // $("#uv-wrapper").text("" + data.value);
+    console.log($("#uv-index .uv-wrapper").text());
+    console.log(data.value);
 }
 //convert kelvin to farenheight
 function convertTemp(temp){
