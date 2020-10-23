@@ -27,10 +27,10 @@
                 <!-- <h4>Search For A City</h4> -->
                 <!-- Form for input andsubmit -->
                 <form >
-                    <div clas="form-group">
+                    <div class="form-group">
                         <!-- form components -->
-                        <label for="searchQuery">Search For A City:</label>
-                        <input name="searchQuery" class="form-control" type="text">
+                        <label for="search-query">Search For A City:</label>
+                        <input name="search-query" class="form-control" type="text" id="search-query">
                         <span class="input-group-btn">
                             <button type="submit" class="btn btn-primary" id="form-submit-button">Search</button>
                         </span>
@@ -52,15 +52,15 @@
                 <!-- List group for border -->
                 <ul class="list-group">
                     <li class="list-group-item" id="history-1">
-                        <h2>City (11,11,1111)(Icon)</h2>
+                        <h2 id="city">City (11,11,1111)(Icon)</h2>
                         <!-- Temp -->
-                        <p>Temperature: N/A</p>
+                        <p id="temp">Temperature: N/A</p>
                         <!-- Humidity -->
-                        <p>Humidity: N/A%</p>
+                        <p id="humidity">Humidity: N/A%</p>
                         <!-- Wind Speed -->
-                        <p>Wind Speed: N/A</p>
+                        <p id="wind-speed">Wind Speed: N/A</p>
                         <!-- UV Index -->
-                        <p>UV Index <span id="uv-wrapper">N/A</span></p>
+                        <p id="uv-index">UV Index <span id="uv-wrapper">N/A</span></p>
                     </li>
                 </ul>
                 <h3 class= "h3">5-Day Forecast</h3>
@@ -121,11 +121,12 @@
     <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- Option 2: jQuery, Popper.js, and Bootstrap JS
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
     -->
+    <script src="assets/js/script.js"></script>
   </body>
 </html>
