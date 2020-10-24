@@ -39,7 +39,7 @@ function getUVData(lon,lat){
 //display data taken from the fetch
 function displayData(data){
     //replace city placeholder with name
-    $("#city").text(data.name);
+    $("#city").text(data.name + '(' + moment.unix(data.dt).format("MM/DD/YYYY") + ")");
     //replace temp
     $("#temp").text("Temperature: " + convertTemp(data.main.temp) + "F");
     //Replace humidity
@@ -97,8 +97,6 @@ function forecastHandler(data){
 }
 //Cards will be dynamically generated
 function generateCard(data, cardId){
-    // console.log(data);
-
     //make column
     var colEl = $("<div>");
     colEl.addClass("col-sm-2");
@@ -108,7 +106,7 @@ function generateCard(data, cardId){
     //create the text content
     var h5El = $("<h5>");
     h5El.addClass("card-title text-white");
-    h5El.text("Date");
+    h5El.text(moment.unix(data.dt).format("MM/DD/YYYY")); //convert unix time to date
     // add the icon
     var iconURL = "http://openweathermap.org/img/w/" + data.weather[0].icon  + ".png";
     var iconEl = $("<img>");
