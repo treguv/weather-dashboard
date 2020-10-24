@@ -1,3 +1,4 @@
+var historyArr = ["N-A","N-A","N-A","N-A","N-A","N-A","N-A"];
 //check for when button was clicked 
 $("#form-submit-button").click(function(event){
     event.preventDefault();
@@ -133,14 +134,55 @@ function generateCard(data, cardId){
     //Append div to page
     $("#five-day-forecast").append(colEl);
 }
-// div class = "col-sm-3"> 
-//                         <div class = "card bg-primary">
-//                             <div class ="card-body">
-//                                 <h5 class="card-title text-white">1/23/2020</h5>
-//                                 <p class= "text-white">Icon goes here</p>
-//                                 <p class= "text-white">Temp: NA</p>
-//                                 <p class= "text-white">Humidity: NA</p>
 
-//                             </div>
-//                         </div>  
-//                     </div>
+function saveHistory(){
+    if(!(localStorage.getItem("history"))){
+        //convert the array to json
+        console.log("writing new");
+        var arrayHolder = {
+            history:historyArr
+        };
+        var jsonArray = JSON.stringify(arrayHolder);
+        console.log(jsonArray);
+        //put the JSON into the localstorage
+        localStorage.setItem("history",jsonArray); // this puts the json string into the local storage
+    }else{
+        console.log("updating");
+        var pastArrJson = localStorage.getItem("history"); //get back json string
+        var pastArr = JSON.parse(pastArrJson);
+        for(var i = 0; i < pastArr.history.length; i++){
+            if(pastArr.history[i] !== historyArr[i]){ //if they are different
+                pastArr.history[i] = historyArr[i]; // replace with new data
+            }
+        }
+        //put back into object
+        var arrayHolder = {
+            history:pastArr.history
+        };
+        localStorage.setItem("history", JSON.stringify(arrayHolder)); // put changed array back into
+    }
+}
+
+function loadHistory(){
+    //Grab json string
+    historyArrJson = localStorage.getItem("history");
+    //parse json string
+    historyArr = JSON.parse(historyArrJson);
+
+    for(var i = 0; i <7; i++){ //change to 8
+        var currentSlot ="#history-" + (i+1);
+       
+        var slotText = $(currentSlot).text();
+        console.log(historyArr.history[i]);
+        if(historyArr.history[i] === slotText){
+
+        }else{
+            //replace if its different
+           $(currentSlot).text(historyArr.history[i]);
+        }
+    }
+    //save the history after loading
+    saveHistory();
+}
+saveHistory();
+loadHistory();
