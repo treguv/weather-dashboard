@@ -41,14 +41,18 @@ function displayData(data){
     //replace city placeholder with name
     $("#city").text(data.name);
     //replace temp
-    $("#temp").text("Temperature: " + convertTemp(data.main.temp));
+    $("#temp").text("Temperature: " + convertTemp(data.main.temp) + "F");
     //Replace humidity
     $("#humidity").text("Humidity: " + data.main.humidity + "%");
     //replace wind speed
     $("#wind-speed").text("Wind Speed: " + data.wind.speed + "mph");
     //display the weather icon
     var iconURL = "http://openweathermap.org/img/w/" + data.weather[0].icon + ".png";
-    $("#wicon").attr("src",iconURL );
+    var iconEl = $("<img>");
+    iconEl.attr("src",iconURL );
+    iconEl.id="forecast-icon";
+    // console.log($("#header-col #forecast-icon")); <-- May be bc icon is async
+    $("#city-icon").append(iconEl);
     //Grab the uv data using lon and lat
     //actual uv data is displauyed in a seperate method as it is async
     getUVData(data.coord.lon, data.coord.lat);
@@ -61,7 +65,7 @@ function displayUV(data){
 }
 //convert kelvin to farenheight
 function convertTemp(temp){
-    return (temp * 1.8) - 459.67; 
+    return ((temp * 1.8) - 459.67).toFixed(2); 
 }
 //get the 5 day forecast
 function getForecastData(cityName){
@@ -83,43 +87,51 @@ function getForecastData(cityName){
 function forecastHandler(data){
     // every 8th one is a new day
     var cardId = 1;
+    //clear last items
+    $("#five-day-forecast").text("");
     for(var i = 0; i < 40; i+=8){
-        console.log(i);
-        generateCard(data.list[i], cardId);
+        // console.log(i);
+        generateCard(data.list[i+4], cardId);
         cardId++;
     }
 }
 //Cards will be dynamically generated
 function generateCard(data, cardId){
+    // console.log(data);
+
     //make column
     var colEl = $("<div>");
-    colEl.addClass("col-sm-3");
+    colEl.addClass("col-sm-2");
     //make card holder 
     var cardEl = $("<div>");
     cardEl.addClass("card bg-primary");
-    console.log(colEl);
     //create the text content
     var h5El = $("<h5>");
     h5El.addClass("card-title text-white");
     h5El.text("Date");
-    // make all inner text
-    var p1El = $("<p>");
-    p1El.addClass("text-white");
+    // add the icon
+    var iconURL = "http://openweathermap.org/img/w/" + data.weather[0].icon  + ".png";
+    var iconEl = $("<img>");
+    iconEl.attr("src",iconURL );
+    iconEl.addClass("forecast-icon");
+    iconEl.id="forecast-icon";
+
      // make all inner text
      var p2El = $("<p>");
      p2El.addClass("text-white");
+     p2El.text("Temp: " + convertTemp(data.main.temp));
       // make all inner text
     var p3El = $("<p>");
     p3El.addClass("text-white");
+    p3El.text("Humidity: " + data.main.humidity);
 
     //append all into card
     cardEl.append(h5El);
-    cardEl.append(p1El);
+    cardEl.append(iconEl);
     cardEl.append(p2El);
     cardEl.append(p3El);
     //Add card to div
     colEl.append(cardEl);
-    console.log($("#history-1"));
     //Append div to page
     $("#five-day-forecast").append(colEl);
 }
