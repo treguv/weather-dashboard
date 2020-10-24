@@ -1,4 +1,4 @@
-var historyArr = ["N-A","N-A","N-A","N-A","N-A","N-A","N-A"];
+var historyArr = ["N-A-1","N-A-2","N-A-3","N-A-4","N-A-5","N-A-6","N-A-7"];
 //check for when button was clicked 
 $("#form-submit-button").click(function(event){
     event.preventDefault();
@@ -6,7 +6,7 @@ $("#form-submit-button").click(function(event){
     var inputText = $("#search-query").val();
     getWeatherData(inputText); // for the day
     getForecastData(inputText); // for 5 days ahead
-    //Now we have the city we need to make the actual api call
+    updateHistoryList(); //update the search history
 });
 
 //make the call to the api and get the data
@@ -167,22 +167,37 @@ function loadHistory(){
     //Grab json string
     historyArrJson = localStorage.getItem("history");
     //parse json string
-    historyArr = JSON.parse(historyArrJson);
+    parsedHistory = JSON.parse(historyArrJson);
 
     for(var i = 0; i <7; i++){ //change to 8
         var currentSlot ="#history-" + (i+1);
        
         var slotText = $(currentSlot).text();
-        console.log(historyArr.history[i]);
-        if(historyArr.history[i] === slotText){
+        console.log(parsedHistory.history[i]);
+        if(parsedHistory.history[i] === slotText){
 
         }else{
             //replace if its different
-           $(currentSlot).text(historyArr.history[i]);
+           $(currentSlot).text(parsedHistory.history[i]);
         }
     }
     //save the history after loading
     saveHistory();
+}
+//update history
+function updateHistoryList(){
+    console.log("updating history...",$("#search-query").val());
+    //go through and move all list items down by one
+    historyArr[6] = historyArr[5];
+    historyArr[5] = historyArr[4];
+    historyArr[4] = historyArr[3];
+    historyArr[3] = historyArr[2];
+    historyArr[2] = historyArr[1];
+    historyArr[1] = historyArr[0];
+    historyArr[0] = ($("#search-query").val());
+    console.log(historyArr);
+    saveHistory();
+    loadHistory();
 }
 saveHistory();
 loadHistory();
