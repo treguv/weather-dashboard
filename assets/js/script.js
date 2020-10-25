@@ -21,7 +21,7 @@ $("#form-submit-button").click(function (event) {
 //make the call to the api and get the data
 function getWeatherData(cityName) {
   //build the api call
-  var api_key = "7eb0513d724997973529d1ffcad23676";
+  var api_key = "INSERT KEY";
   var apiCall =
     "https://api.openweathermap.org/data/2.5/weather?q=" +
     cityName +
@@ -42,7 +42,7 @@ function getWeatherData(cityName) {
 //get uv data
 function getUVData(lon, lat) {
   //build api call
-  var api_key = "7eb0513d724997973529d1ffcad23676";
+  var api_key = "INSERT KEY";
   var apiCall =
     "http://api.openweathermap.org/data/2.5/uvi?lat=" +
     lat +
