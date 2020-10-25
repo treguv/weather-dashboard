@@ -82,10 +82,23 @@ function displayData(data) {
   getUVData(data.coord.lon, data.coord.lat);
 }
 function displayUV(data) {
-  $("#uv-index").text("UV Index: " + data.value); // The data valuse needs to be moved into the span
-  // $("#uv-wrapper").text("" + data.value);
-  // console.log($("#uv-index .uv-wrapper").text());
-  // console.log(data.value);
+  $("#uv-index-wrapper p").text("UV Index: "); // The data valuse needs to be moved into the span
+  //make the uv index text
+  var uvTextEl = $("<p>");
+  uvTextEl.text("UV Index: ");
+  var indexEl = $("<p>");
+  indexEl.text(" " + data.value);
+  // change background color based on value
+  if (data.value < 3) {
+    indexEl.addClass("bg-success");
+  } else if (data.value < 7) {
+    indexEl.addClass("bg-warning");
+  } else {
+    indexEl.addClass("bg-danger");
+  }
+  $("#uv-index-wrapper").empty();
+  $("#uv-index-wrapper").append(uvTextEl);
+  $("#uv-index-wrapper").append(indexEl);
 }
 //convert kelvin to farenheight
 function convertTemp(temp) {
@@ -113,6 +126,12 @@ function getForecastData(cityName) {
 }
 //deal with data and pass needed info to cardgen
 function forecastHandler(data) {
+  // Add the 5day forecast text  <h3 class="h3">5-Day Forecast</h3>
+  var fiveDayEl = $("<h3>");
+  fiveDayEl.addClass("h3");
+  fiveDayEl.text("5-Day Forecast");
+  $("#five-day-forecast-text").empty();
+  $("#five-day-forecast-text").append(fiveDayEl);
   // every 8th one is a new day
   var cardId = 1;
   //clear last items
@@ -146,11 +165,11 @@ function generateCard(data, cardId) {
   // make all inner text
   var p2El = $("<p>");
   p2El.addClass("text-white");
-  p2El.text("Temp: " + convertTemp(data.main.temp));
+  p2El.text("Temp: " + convertTemp(data.main.temp) + "F");
   // make all inner text
   var p3El = $("<p>");
   p3El.addClass("text-white");
-  p3El.text("Humidity: " + data.main.humidity);
+  p3El.text("Humidity: " + data.main.humidity + "%");
 
   //append all into card
   cardEl.append(h5El);
