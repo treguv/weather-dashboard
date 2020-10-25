@@ -13,4 +13,4 @@ https://treguv.github.io/weather-dashboard/
 ## Made By
 Vladislav Tregubov
 ## Image of Webpage
-![Image of webpage](/assets/images/web-screenshot-png.png)
+![Image of webpage](/assets/img/web-screenshot-png.png)
