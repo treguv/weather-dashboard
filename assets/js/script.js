@@ -7,6 +7,7 @@ var historyArr = [
   "N-A-6",
   "N-A-7",
 ];
+
 //check for when button was clicked
 $("#form-submit-button").click(function (event) {
   event.preventDefault();
@@ -37,6 +38,7 @@ function getWeatherData(cityName) {
     }
   });
 }
+
 //get uv data
 function getUVData(lon, lat) {
   //build api call
@@ -50,7 +52,6 @@ function getUVData(lon, lat) {
     api_key;
   fetch(apiCall).then(function (response) {
     response.json().then(function (data) {
-      // console.log("Returning Data");
       displayUV(data);
     });
   });
@@ -75,12 +76,13 @@ function displayData(data) {
   var iconEl = $("<img>");
   iconEl.attr("src", iconURL);
   iconEl.id = "forecast-icon";
-  // console.log($("#header-col #forecast-icon")); <-- May be bc icon is async
   $("#city-icon").append(iconEl);
   //Grab the uv data using lon and lat
   //actual uv data is displauyed in a seperate method as it is async
   getUVData(data.coord.lon, data.coord.lat);
 }
+
+// display the UV data
 function displayUV(data) {
   $("#uv-index-wrapper p").text("UV Index: "); // The data valuse needs to be moved into the span
   //make the uv index text
@@ -100,10 +102,12 @@ function displayUV(data) {
   $("#uv-index-wrapper").append(uvTextEl);
   $("#uv-index-wrapper").append(indexEl);
 }
+
 //convert kelvin to farenheight
 function convertTemp(temp) {
   return (temp * 1.8 - 459.67).toFixed(2);
 }
+
 //get the 5 day forecast
 function getForecastData(cityName) {
   //build the api call
@@ -124,6 +128,7 @@ function getForecastData(cityName) {
     }
   });
 }
+
 //deal with data and pass needed info to cardgen
 function forecastHandler(data) {
   // Add the 5day forecast text  <h3 class="h3">5-Day Forecast</h3>
@@ -137,11 +142,11 @@ function forecastHandler(data) {
   //clear last items
   $("#five-day-forecast").text("");
   for (var i = 0; i < 40; i += 8) {
-    // console.log(i);
     generateCard(data.list[i + 4], cardId);
     cardId++;
   }
 }
+
 //Cards will be dynamically generated
 function generateCard(data, cardId) {
   //make column
@@ -161,7 +166,6 @@ function generateCard(data, cardId) {
   iconEl.attr("src", iconURL);
   iconEl.addClass("forecast-icon");
   iconEl.id = "forecast-icon";
-
   // make all inner text
   var p2El = $("<p>");
   p2El.addClass("text-white");
@@ -170,7 +174,6 @@ function generateCard(data, cardId) {
   var p3El = $("<p>");
   p3El.addClass("text-white");
   p3El.text("Humidity: " + data.main.humidity + "%");
-
   //append all into card
   cardEl.append(h5El);
   cardEl.append(iconEl);
@@ -185,16 +188,13 @@ function generateCard(data, cardId) {
 function saveHistory() {
   if (!localStorage.getItem("history")) {
     //convert the array to json
-    console.log("writing new");
     var arrayHolder = {
       history: historyArr,
     };
     var jsonArray = JSON.stringify(arrayHolder);
-    console.log(jsonArray);
     //put the JSON into the localstorage
     localStorage.setItem("history", jsonArray); // this puts the json string into the local storage
   } else {
-    console.log("updating");
     var pastArrJson = localStorage.getItem("history"); //get back json string
     var pastArr = JSON.parse(pastArrJson);
     for (var i = 0; i < pastArr.history.length; i++) {
@@ -220,11 +220,8 @@ function loadHistory() {
   for (var i = 0; i < 7; i++) {
     //change to 8
     var currentSlot = "#history-" + (i + 1);
-
     var slotText = $(currentSlot).text();
-
     if (parsedHistory.history[i] === slotText) {
-      console.log("same text");
     } else {
       //replace if its different
       $(currentSlot).text(parsedHistory.history[i]);
@@ -234,9 +231,9 @@ function loadHistory() {
   //save the history after loading
   saveHistory();
 }
+
 //update history
 function updateHistoryList() {
-  console.log("updating history...", $("#search-query").val());
   //go through and move all list items down by one
   historyArr[6] = historyArr[5];
   historyArr[5] = historyArr[4];
@@ -245,7 +242,6 @@ function updateHistoryList() {
   historyArr[2] = historyArr[1];
   historyArr[1] = historyArr[0];
   historyArr[0] = $("#search-query").val();
-  console.log(historyArr);
   saveHistory();
   loadHistory();
 }
@@ -254,7 +250,6 @@ function updateHistoryList() {
 $("#history-group").on("click", "li", function () {
   //determine which item was clicked
   var clickedItem = $(this).text().trim();
-  console.log(clickedItem);
   //actually search for the items
   getWeatherData(clickedItem); // for the day
   getForecastData(clickedItem); // for 5 days ahead
